@@ -1,0 +1,74 @@
+.avater {
+  width: 15vw;
+  border-radius: 50%;
+  border: 2px solid red;
+}
+
+.role{
+  background-color: gray;
+  padding: 3px 15px;
+  border-radius: 10px;
+  color: white;
+}
+
+.profile p{
+  margin-top: 25px;
+  text-decoration: underline;
+}
+
+.profile{
+  border-left: 2px solid red;
+}
+
+.card {
+  margin: 1.5vh 0px;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.subjectlist {
+  background-color: #B8B8B8;
+  border-radius: 5px; 
+}
+
+.name {
+  font-size: 1.2rem;
+}
+
+.dashboardcounts {
+  font-size: 4rem;
+}
+
+.price{
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: white;
+  width: fit-content;
+}
+
+#searchbox{
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px 0px 0px 10px;
+}
+
+#searchbtn{
+  padding: 10px 15px;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.pill{
+  border-radius: 10px;
+  font-size: x-small;
+  color: red;
+  border: 1px solid red;
+  height: fit-content;
+  padding: 2px 20px;
+}
+
+.round-logo img{
+  width: 30vh;
+  border-radius: 15px;
+}

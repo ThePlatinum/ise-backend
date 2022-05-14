@@ -1,26 +1,87 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.theme')
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('body')
+<nav class="sidebar close" id="sidebar">
+  <header>
+    <div class="image-text">
+      <span class="image">
+        <img src="{{ asset('images/Ise favicon.svg') }}" alt="School Logo">
+      </span>
 
-    <title>{{ config('app.name', 'Ise Admin') }}</title>
+      <div class="text logo-text">
+        <span class="name"> ISE </span>
+      </div>
+    </div>
+    <span class='bx bx-chevron-right toggle' id="toggle"></span>
+  </header>
+  <hr />
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+  <div class="menu-bar ">
+    <div class="menu">
+      <ul class="menu-links">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+        <li class="nav-link">
+          <!-- active -->
+          <a href="/dashboard">
+            <i class='bx bx-home-alt icon'></i>
+            <span class="text nav-text">Dashboard</span>
+          </a>
+        </li>
 
-    <!-- Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
-  @yield('content')
-</body>
-</html>
+        <li class="nav-link">
+          <a href="/">
+            <i class='bx bx-wrench bx-flip-horizontal icon'></i>
+            <span class="text nav-text">Settings</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="/">
+            <i class='bx bx-user bx-flip-horizontal icon'></i>
+            <span class="text nav-text">Admins</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+    <div class="bottom-content">
+      <hr />
+      <li class="nav-link">
+        <a href="">
+          <i class='bx bx-user icon'></i>
+          <span class="text nav-text">Profile</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="logout" href="{{ route('logout') }}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+          <i class='bx bx-log-out icon'></i>
+          <span class="text nav-text">Logout</span>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          @csrf
+        </form>
+      </li>
+
+    </div>
+  </div>
+</nav>
+
+<div class="content d-flex flex-column">
+  <div class="flex-grow-1">
+    @yield('content')
+  </div>
+  <div class="p-3">
+    <hr>
+    <div class="d-flex d-flex justify-content-between credit">
+      ISE
+      <!-- <img src="" alt=""> -->
+      <div class="social">
+        <p>Product of <a href="">Publicity Drive</a> </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+@endsection
