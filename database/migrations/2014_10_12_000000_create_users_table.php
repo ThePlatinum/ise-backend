@@ -6,31 +6,54 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('role')->default(0);
-            $table->rememberToken();
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    Schema::create('users', function (Blueprint $table) {
+      $table->id();
+      $table->string('email')->unique();
+      $table->string('password');
+      $table->string('username')->nullable()->unique();
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('users');
-    }
+      $table->string('title')->nullable();
+      $table->string('firstname')->nullable();
+      $table->string('lastname')->nullable();
+      $table->string('othername')->nullable();
+
+      $table->string('phone')->nullable()->unique();
+      $table->string('country_of_residence')->nullable();
+
+      $table->string('address')->nullable();
+      $table->string('state_of_residence')->nullable();
+
+      $table->string('state_of_origin')->nullable();
+      $table->string('country_of_origin')->nullable();
+
+      $table->string('gender')->nullable();
+      $table->string('profile_image')->default('profile_pictures/avater.png');
+      $table->string('bio')->default('No profile details');
+
+      $table->string('role')->default(0);
+
+      $table->timestamp('dob')->nullable();
+      $table->timestamp('email_verified_at')->nullable();
+      $table->timestamp('phone_verified_at')->nullable();
+      $table->rememberToken();
+      $table->timestamps();
+    });
+  }
+
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('users');
+  }
 }
