@@ -15,7 +15,7 @@ Find the best talent for your projects!
 - Admin : email = admin@ise.com, password = 12345678
 
 ### Postman with API Documentations
-[Invite Link](https://app.getpostman.com/join-team?invite_code=af92e846b7c62b80198eb0246c212286&target_code=d8d90ea33d20e4fe7ce2473d8bd438b6)
+[Invite Link](https://app.getpostman.com/join-team?invite_code=b00c66b85142338341ca5522c64df7ce&target_code=cd5ac8f8f19482fdaec63cbbc203aa68)
 
 ## License
 
