@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-  
+
   public function register(Request $request)
   {
     $validator = Validator::make($request->all(), [
@@ -45,21 +45,16 @@ class UserController extends Controller
       return response($response, 200);
     }
     $user = User::where('email', $request->email)->first();
-    if ($user) {
+    if ($user)
       if (Hash::check($request->password, $user->password)) {
         $token = $user->createToken('Ise Password Grant Client')->accessToken;
-        
+
         $response = ['status' => true, 'token' => $token,  "user_id" => $user->id, 'message' => 'Successfully logged in!'];
         return response($response, 200);
-      } else {
-        
-        $response = ['status' => false, "message" => "Password mismatch"];
-        return response($response);
-      }
-    } else {
-    
-      return response( ['status' => false, "message" => 'User does not exist'], 200 );
-    }
+      } else
+        return response(['status' => false, "message" => "Password mismatch"]);
+    else
+      return response(['status' => false, "message" => 'User does not exist'], 200);
   }
 
   public function logout($user_id)
@@ -67,24 +62,5 @@ class UserController extends Controller
     $token = User::where('id', $user_id)->user()->token();
     $token->revoke();
     return response(['status' => true, 'message' => 'Successfully logged out!'], 200);
-  }
-
-  public function update(Request $request, $id)
-  {
-    $user = User::find($id);
-    if (!$user) {
-      $response = ['status' => false, 'message' => 'User id not found!'];
-      return response($response, 200);
-    }
-    return response(['status' => true, 'message' => 'Profile updated!'], 200);
-  }
-
-  public function single($user_id)
-  {
-    $user = User::find($user_id);
-    if (!$user)
-      return response()->json(400);
-    $result = ['user' => $user];
-    return response()->json($result, 200);
   }
 }
