@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Categories;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,21 @@ class DatabaseSeeder extends Seeder
       'email'     => 'admin@ise.com',
       'password'  => Hash::make('12345678'),
       'role' => '1',
-      'created_at' => now(),
     ]);
+
+    // Create a know user
+    User::create([
+      'email'     => 'dprince195@gmail.com',
+      'password'  => Hash::make('12345678'),
+    ]);
+
+    $catlist = ['Programming and Tech', 'Graphics Design', 'Copywriting', 'Photography, Video and Animations'];
+    // Creae categories
+    foreach ($catlist as $cat ) {
+      Categories::create([
+        'name' => $cat,
+        'slug' => \Str::slug($cat)
+      ]);
+    }
   }
 }
