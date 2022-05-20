@@ -13,7 +13,7 @@ class ProfileController extends Controller
     $user = User::find($user_id);
     if (!$user)
       return response()->json(400);
-    return response()->json(['user' => $user], 200);
+    return response()->json($user, 200);
   }
 
   public function setprofilepicture(Request $request)
