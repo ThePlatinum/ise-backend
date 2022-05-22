@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\Super\SuperController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::get('/categories', [ProjectsController::class, 'categories']);
+Route::get('/migrate', [SuperController::class, 'migrate']);
 
-// Route::group( ['middleware'=>['auth:sanctum']], function () {
+Route::group( ['middleware'=>['auth:sanctum']], function () {
   Route::get('/getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
 
   Route::get('/logout/{user_id}',  [UserController::class, 'logout']);
-// });
+});
