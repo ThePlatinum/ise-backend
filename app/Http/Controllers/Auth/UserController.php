@@ -27,7 +27,7 @@ class UserController extends Controller
     $request['remember_token'] = Str::random(10);
 
     $user = User::create($request->toArray());
-    $token = $user->createToken('Ise Password Grant Client')->accessToken;
+    $token = $user->createToken('Ise Password Grant Client')->plainTextToken;
 
     $response = ['status' => true, 'token' => $token, 'message' => 'You have successfully registered!'];
     return response($response, 200);
@@ -47,7 +47,7 @@ class UserController extends Controller
     $user = User::where('email', $request->email)->first();
     if ($user)
       if (Hash::check($request->password, $user->password)) {
-        $token = $user->createToken('Ise Password Grant Client')->accessToken;
+        $token = $user->createToken('Ise Password Grant Client')->plainTextToken;
 
         $response = ['status' => true, 'token' => $token,  "user_id" => $user->id, 'message' => 'Successfully logged in!'];
         return response($response, 200);
