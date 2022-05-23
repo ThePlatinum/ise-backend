@@ -25,12 +25,12 @@ class ProfileController extends Controller
       $user = User::find($request->user_id);
     if ($user) {
       $file = $request->file('image');
-      $file->storeAs('files', $file->getClientOriginalName());
-      $image = 'files/' . $file->getClientOriginalName();
+      $file->storeAs('profile_images', $file->getClientOriginalName());
+      $image = 'profile_images/' . $file->getClientOriginalName();
       $user->profile_image = $image;
       $user->save();
-      return response(['status' => false, 'message' => $validator->errors()->all()], 200);
+      return response(['status' => true, 'message' => "Profile picture updated"], 200);
     } else
-      return response(['status' => false, 'message' => 'User not found'], 200);
+      return response(['status' => false, 'message' => 'User not found'], 400);
   }
 }

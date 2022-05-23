@@ -19,13 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Auths
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/register', [UserController::class, 'register']);
-Route::get('/categories', [ProjectsController::class, 'categories']);
-Route::get('/migrate', [SuperController::class, 'migrate']);
+Route::POST('/login', [UserController::class, 'login']);
+Route::POST('/register', [UserController::class, 'register']);
+Route::GET('/categories', [ProjectsController::class, 'categories']);
+Route::GET('/migrate', [SuperController::class, 'migrate']);
 
 Route::group( ['middleware'=>['auth:sanctum']], function () {
-  Route::get('/getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
+  Route::GET('/getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
+  Route::POST('/setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
 
-  Route::get('/logout/{user_id}',  [UserController::class, 'logout']);
+  Route::GET('/logout/{user_id}',  [UserController::class, 'logout']);
 });
