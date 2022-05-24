@@ -18,6 +18,7 @@ class ProfileController extends Controller
 
   public function setprofilepicture(Request $request)
   {
+    // TODO: Delete previous img if exist
     $validator = Validator::make($request->all(), ['image' => 'image|mimes:jpeg,png,jpg,svg']);
     if ($validator->fails())
       return response(['status' => false, 'message' => $validator->errors()->all()], 200);
