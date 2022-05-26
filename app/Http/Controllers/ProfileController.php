@@ -26,7 +26,7 @@ class ProfileController extends Controller
       $user = User::find($request->user_id);
     if ($user) {
       $file = $request->file('image');
-      $file->storeAs('profile_images', $file->getClientOriginalName());
+      $file->storeAs('public/profile_images', $file->getClientOriginalName());
       $image = 'profile_images/' . $file->getClientOriginalName();
       $user->profile_image = $image;
       $user->save();
