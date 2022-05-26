@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\MailsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Super\SuperController;
@@ -24,7 +25,7 @@ Route::POST('/register', [UserController::class, 'register']);
 Route::GET('/categories', [ProjectsController::class, 'categories']);
 Route::GET('/migrate', [SuperController::class, 'migrate']);
 
-Route::group( ['middleware'=>['auth:sanctum']], function () {
+Route::group( ['middleware'=>['auth:sanctum', 'verified:api']], function () {
   Route::GET('/getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
   Route::POST('/setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
 
