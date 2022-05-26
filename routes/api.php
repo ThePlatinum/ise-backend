@@ -31,3 +31,5 @@ Route::group( ['middleware'=>['auth:sanctum', 'verified:api']], function () {
 
   Route::GET('/logout/{user_id}',  [UserController::class, 'logout']);
 });
+
+Route::GET('/welcomemail/{user_id}', [MailsController::class, 'welcome']);
