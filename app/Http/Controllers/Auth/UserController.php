@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,6 +30,7 @@ class UserController extends Controller
     $user = User::create($request->toArray());
     $token = $user->createToken('Ise Password Grant Client')->plainTextToken;
 
+    event(new Registered($user));
     $response = ['status' => true, 'token' => $token, 'message' => 'You have successfully registered!'];
     return response($response, 200);
   }
@@ -62,5 +64,13 @@ class UserController extends Controller
     $token = User::where('id', $user_id)->user()->token();
     $token->revoke();
     return response(['status' => true, 'message' => 'Successfully logged out!'], 200);
+  }
+
+  public function verifyemail($user_id)
+  {
+    $user = User::find($user_id);
+    abort_if(!$user, 400);
+    
+    return response()->json(200);
   }
 }
