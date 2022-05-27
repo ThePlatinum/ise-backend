@@ -6,6 +6,7 @@ use App\Http\Controllers\MailsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Super\SuperController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,14 @@ use Illuminate\Support\Facades\Route;
 Route::POST('/login', [UserController::class, 'login']);
 Route::POST('/register', [UserController::class, 'register']);
 
+// Categories
 Route::GET('/categories', [ProjectsController::class, 'categories']);
-Route::GET('/migrate', [SuperController::class, 'migrate']);
 
+// Tasks
+Route::GET('tasks', [TaskController::class, 'alltasks']);
+Route::GET('tasks/{category_id}', [TaskController::class, 'tasks']);
+Route::GET('task/search', [TaskController::class, 'search']);
+Route::POST('task/new', [TaskController::class, 'store']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::POST('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
@@ -38,3 +44,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::POST('/setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
   Route::GET('/welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
+
+
+// Super
+Route::GET('/migrate', [SuperController::class, 'migrate']);
