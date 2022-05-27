@@ -43,5 +43,8 @@ class DatabaseSeeder extends Seeder
         'slug' => \Str::slug($cat)
       ]);
     }
+
+    // Create tasks
+    $this->call(TaskSeeder::class);
   }
 }
