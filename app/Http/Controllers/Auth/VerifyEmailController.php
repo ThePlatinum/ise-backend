@@ -24,7 +24,10 @@ class VerifyEmailController extends Controller
     }
 
     public function resendNotification(Request $request) {
-        $request->user()->sendEmailVerificationNotification();
+        $user = User::find($request->user_id);
+        abort_if(!$user, 403);
+        
+        $user->sendEmailVerificationNotification();
 
         return ['message'=> 'OK.'];
     }

@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\MailsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Super\SuperController;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,11 +26,10 @@ Route::POST('/register', [UserController::class, 'register']);
 Route::GET('/categories', [ProjectsController::class, 'categories']);
 Route::GET('/migrate', [SuperController::class, 'migrate']);
 
-Route::post('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
-  ->name('verification.send');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
+  Route::POST('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
+    ->name('verification.send');
   Route::GET('/logout/{user_id}',  [UserController::class, 'logout']);
 });
 
