@@ -38,4 +38,9 @@ class Task extends Model
   protected $hidden = [
     'user_id',
   ];
+
+  public function files()
+  {
+    return $this->hasMany(TaskFiles::class, 'task_id');
+  }
 }
