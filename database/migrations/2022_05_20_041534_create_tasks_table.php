@@ -23,6 +23,7 @@ class CreateTasksTable extends Migration
       $table->string('duration_type');
       $table->integer('price');
       $table->string('currency');
+      $table->string('status')->default('pending');
       $table->timestamps();
       $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
