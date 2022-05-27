@@ -31,7 +31,6 @@ Route::GET('/categories', [ProjectsController::class, 'categories']);
 Route::GET('tasks', [TaskController::class, 'alltasks']);
 Route::GET('tasks/{category_id}', [TaskController::class, 'tasks']);
 Route::GET('task/search', [TaskController::class, 'search']);
-Route::POST('task/new', [TaskController::class, 'store']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::POST('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
@@ -39,8 +38,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::GET('/logout/{user_id}',  [UserController::class, 'logout']);
 });
 
+// Must verify email require passing USER_ID
 Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
+
+  // Profile
   Route::GET('/getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
+
+  // Task
+  Route::POST('task/new/{user_id}', [TaskController::class, 'store']);
+  Route::POST('task/update/{task_id}', [TaskController::class, 'update']);
+  Route::POST('task/delete/{task_id}', [TaskController::class, 'delete']);
+
+  
   Route::POST('/setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
   Route::GET('/welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
