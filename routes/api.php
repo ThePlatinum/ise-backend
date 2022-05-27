@@ -31,6 +31,7 @@ Route::GET('/categories', [ProjectsController::class, 'categories']);
 Route::GET('tasks', [TaskController::class, 'alltasks']);
 Route::GET('tasks/{category_id}', [TaskController::class, 'tasks']);
 Route::GET('task/search', [TaskController::class, 'search']);
+Route::GET('tasks/of/{user_id}', [TaskController::class, 'show']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::POST('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])

@@ -95,4 +95,11 @@ class TaskController extends Controller
     $task->delete();
     return response()->json(['Task Deleted'], 200);
   }
+
+  public function show($user_id)
+  {
+    $task = Task::with('files', 'files')->where('user_id', $user_id)->paginate( config('global.PER_PAGE') );
+    abort_if(!$task, 404);
+    return response()->json($task, 200);
+  }
 }
