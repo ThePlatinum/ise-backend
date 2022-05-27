@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::GET('/getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
 
   // Task
-  Route::POST('task/new/{user_id}', [TaskController::class, 'store']);
+  Route::POST('task/new', [TaskController::class, 'store']);
   Route::POST('task/update/{task_id}', [TaskController::class, 'update']);
   Route::POST('task/delete/{task_id}', [TaskController::class, 'delete']);
 

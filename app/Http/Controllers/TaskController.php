@@ -62,4 +62,28 @@ class TaskController extends Controller
     $task = Task::create($request->all());
     return response()->json(['Task Added'], 200);
   }
+
+  public function update(Request $request, $task_id)
+  {
+    $validator = Validator::make($request->all(), [
+      'name' => 'required|string|max:255',
+      'description' => 'required|string',
+      'duration' => 'required',
+      'duration_type' => 'required',
+      'price' => 'required',
+      'currency' => 'required',
+      'category_id' => 'required|integer',
+      'user_id' => 'required|integer'
+    ]);
+    if ($validator->fails()) {
+      $response = ['status' => false, 'message' => $validator->errors()->all()];
+      return response($response, 200);
+    }
+    $task = Task::find($task_id);
+    if ($task->user_id != $request->user_id) {
+      return response()->json(['You are not allowed to update this task'], 200);
+    }
+    $task->update($request->all());
+    return response()->json(['Task Updated'], 200);
+  }
 }
