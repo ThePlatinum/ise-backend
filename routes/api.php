@@ -47,8 +47,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   // Task
   Route::POST('task/new', [TaskController::class, 'store']);
   Route::POST('task/update/{task_id}', [TaskController::class, 'update']);
-  Route::POST('task/delete/{task_id}', [TaskController::class, 'delete']);
-
+  Route::POST('task/delete', [TaskController::class, 'delete']);
   
   Route::POST('/setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
   Route::GET('/welcomemail/{user_id}', [MailsController::class, 'welcome']);

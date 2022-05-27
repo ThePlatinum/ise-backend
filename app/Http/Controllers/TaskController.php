@@ -86,4 +86,13 @@ class TaskController extends Controller
     $task->update($request->all());
     return response()->json(['Task Updated'], 200);
   }
+
+  public function delete(Request $request){
+    $task = Task::find($request->task_id);
+    if ($task->user_id != $request->user_id) {
+      return response()->json(['You are not allowed to delete this task'], 200);
+    }
+    $task->delete();
+    return response()->json(['Task Deleted'], 200);
+  }
 }
