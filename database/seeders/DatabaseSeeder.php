@@ -45,6 +45,9 @@ class DatabaseSeeder extends Seeder
     }
 
     // Create tasks
-    $this->call(TaskSeeder::class);
+    $this->call([
+      TaskSeeder::class,
+      AcceptedDocumentSeeder::class,
+    ]);
   }
 }

@@ -37,6 +37,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::POST('email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
     ->name('verification.send');
 
+  // Profile
+  Route::POST('usernameandphone', [ProfileController::class, 'usernameandphone']);
+
   Route::GET('logout/{user_id}',  [UserController::class, 'logout']);
 });
 
@@ -45,7 +48,6 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
   // Profile
   Route::GET('getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
-  Route::POST('usernameandphone', [ProfileController::class, 'usernameandphone']);
   Route::POST('basicinfo', [ProfileController::class, 'basicinfo']);
   Route::POST('setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
 
