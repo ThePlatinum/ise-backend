@@ -21,11 +21,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Auths
-Route::POST('/login', [UserController::class, 'login']);
-Route::POST('/register', [UserController::class, 'register']);
+Route::POST('login', [UserController::class, 'login']);
+Route::POST('register', [UserController::class, 'register']);
 
 // Categories
-Route::GET('/categories', [ProjectsController::class, 'categories']);
+Route::GET('categories', [ProjectsController::class, 'categories']);
 
 // Tasks
 Route::GET('tasks', [TaskController::class, 'alltasks']);
@@ -34,26 +34,28 @@ Route::GET('task/search', [TaskController::class, 'search']);
 Route::GET('tasks/of/{user_id}', [TaskController::class, 'show']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-  Route::POST('/email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
+  Route::POST('email/verification-notification', [VerifyEmailController::class, 'resendNotification'])
     ->name('verification.send');
-  Route::GET('/logout/{user_id}',  [UserController::class, 'logout']);
+  Route::POST('usernameandphone', [UserController::class, 'usernameandphone']);
+
+  Route::GET('logout/{user_id}',  [UserController::class, 'logout']);
 });
 
 // Must verify email require passing USER_ID
 Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
   // Profile
-  Route::GET('/getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
+  Route::GET('getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
 
   // Task
   Route::POST('task/new', [TaskController::class, 'store']);
   Route::POST('task/update/{task_id}', [TaskController::class, 'update']);
   Route::POST('task/delete', [TaskController::class, 'delete']);
   
-  Route::POST('/setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
-  Route::GET('/welcomemail/{user_id}', [MailsController::class, 'welcome']);
+  Route::POST('setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
+  Route::GET('welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
 
 
 // Super
-Route::GET('/migrate', [SuperController::class, 'migrate']);
+Route::GET('migrate', [SuperController::class, 'migrate']);

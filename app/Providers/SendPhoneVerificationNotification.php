@@ -27,5 +27,13 @@ class SendPhoneVerificationNotification
     public function handle(AddPhone $event)
     {
         //
+        $user = $event->user;
+        // TODO: Send SMS with OTP
+        $otp = $this->generateOTP();
+    }
+
+    public function generateOTP(){
+        $otp = rand(100000, 999999);
+        return $otp;
     }
 }
