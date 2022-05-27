@@ -19,6 +19,9 @@ class MustVerify
   public function handle(Request $request, Closure $next)
   {
     $user_id = $request->route('user_id');
+    if ( ! $user_id) {
+      $user_id = $request->user_id;
+    }
     $user = User::find($user_id);
     if (!$user)
       return abort(403);
