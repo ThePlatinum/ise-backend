@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Task;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +24,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         CompleteProfile::class => [
             SendCompleteProfileNotification::class,
+        ],
+        IdentityDocumentSubmitted::class => [
+            SendIdentityDocumentSubmittedNotification::class,
+        ],
+        IdentityDocumentStatusChanged::class => [
+            SendIdentityDocumentStatusChangedNotification::class,
+        ],
+        TaskCreated::class => [
+            SendTaskCreatedNotification::class,
+        ],
+        TaskStatusChanged::class => [
+            SendTaskStatusChangedNotification::class,
         ],
     ];
 
