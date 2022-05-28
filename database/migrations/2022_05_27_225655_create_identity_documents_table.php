@@ -20,6 +20,10 @@ class CreateIdentityDocumentsTable extends Migration
       $table->unsignedBigInteger('type_id');
       $table->string('file_type');
       $table->string('file_url');
+      $table->string('name_on_document');
+      $table->string('document_number');
+      $table->string('status')->default('pending');
+      $table->timestamp('document_expiry')->nullable();
       $table->timestamps();
       $table->foreign('type_id')->references('id')->on('accepted_documents')->onDelete('cascade');
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
