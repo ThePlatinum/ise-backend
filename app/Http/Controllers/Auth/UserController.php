@@ -61,7 +61,7 @@ class UserController extends Controller
 
   public function logout($user_id)
   {
-    $token = User::where('id', $user_id)->user()->token();
+    $token = User::find($user_id)->token();
     $token->revoke();
     return response(['status' => true, 'message' => 'Successfully logged out!'], 200);
   }

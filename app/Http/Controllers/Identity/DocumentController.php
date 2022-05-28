@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Validator;
 
 class DocumentController extends Controller
 {
+  // Get accepted document types
   public function acceptedDocuments()
   {
     $documents = AcceptedDocument::all();
     return response()->json($documents, 200);
   }
-  
+
+  // User's identity document
   public function getDocument($user_id)
   {
     $user = User::find($user_id);
@@ -31,7 +33,7 @@ class DocumentController extends Controller
   {
     $validator = Validator::make($request->all(), [
       'user_id' => 'required|exists:users,id',
-      'type_id' => 'required|exists:accepted_documents,document_type',
+      'type_id' => 'required|exists:accepted_documents,id',
       'name_on_document' => 'required|string|max:255',
       'document_number' => 'required|string|max:255',
       'document_expiry' => 'nullable|date',
@@ -45,9 +47,9 @@ class DocumentController extends Controller
 
     if ($request->hasFile('file')) {
       $file = $request->file('file');
-      $file_name = 'user_' . $user->id . '_' . $document_type;
+      $file_name = 'user_' . $user->id .'_' . $document_type->document_type . '.' . $file->getClientOriginalExtension();
 
-      $file->move(public_path('/uploads/identitydocuments/'), $file_name);
+      $file->storeAs('public/identitydocuments/', $file_name);
 
       $submited = IdentityDocument::create([
         'user_id' => $request->user_id,

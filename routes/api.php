@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Identity\DocumentController;
 use App\Http\Controllers\MailsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
@@ -43,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::GET('logout/{user_id}',  [UserController::class, 'logout']);
 });
 
-// Must verify email require passing USER_ID
+// Must verify email require passing USER_ID as param or request
 Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
   // Profile
@@ -55,6 +56,9 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::POST('task/new', [TaskController::class, 'store']);
   Route::POST('task/update/{task_id}', [TaskController::class, 'update']);
   Route::POST('task/delete', [TaskController::class, 'delete']);
+
+  // Identity Documents
+  Route::POST('identity/submit', [DocumentController::class, 'submitdoc']);
   
   Route::GET('welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
