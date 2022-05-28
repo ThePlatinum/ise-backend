@@ -54,9 +54,9 @@ class UserController extends Controller
         $response = ['status' => true, 'token' => $token,  "user_id" => $user->id, 'message' => 'Successfully logged in!'];
         return response($response, 200);
       } else
-        return response(['status' => false, "message" => "Password mismatch"]);
+        return response(['status' => false, "message" => "Password mismatch"], 401);
     else
-      return response(['status' => false, "message" => 'User does not exist'], 200);
+      return response(['status' => false, "message" => 'User does not exist'], 401);
   }
 
   public function logout($user_id)
