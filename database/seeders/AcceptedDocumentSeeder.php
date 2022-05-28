@@ -15,12 +15,11 @@ class AcceptedDocumentSeeder extends Seeder
     public function run()
     {
         //
-        AcceptedDocument::create(
-          ['document_type' => 'Drivers License'],
-          ['document_type' => 'International Passport'],
-          ['document_type' => 'Voter\'s Card'],
-          ['document_type' => 'NIN'],
-          ['document_type' => 'Goverment Issued Identity Card']
-        );
+        $types = ['Drivers License', 'International Passport', 'Voter\'s Card', 'National Identity Number', 'Goverment Issued Identity Card'];
+        foreach ($types as $type) {
+            AcceptedDocument::create([
+                'document_type' => $type
+            ]);
+        }
     }
 }
