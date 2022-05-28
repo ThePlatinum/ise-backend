@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\VerifyPhoneController;
 use App\Http\Controllers\Identity\DocumentController;
 use App\Http\Controllers\MailsController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,10 @@ Route::POST('register', [UserController::class, 'register']);
 
 // Categories
 Route::GET('categories', [ProjectsController::class, 'categories']);
+
+// Phone verification
+Route::POST('resend-phone', [VerifyPhoneController::class, 'resend']);
+Route::POST('call-phone', [VerifyPhoneController::class, 'nextascall']);
 
 // Tasks
 Route::GET('tasks', [TaskController::class, 'alltasks']);
