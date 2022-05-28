@@ -43,6 +43,9 @@ class DocumentController extends Controller
       return response(['status' => false, 'message' => $validator->errors()->all()], 200);
 
     $user = User::find($request->user_id);
+    if ($user->identified)
+      return response()->json(['status' => false, 'message' => 'User already has an identity document'], 200);
+    
     $document_type = AcceptedDocument::where('id', $request->type_id)->first();
 
     if ($request->hasFile('file')) {

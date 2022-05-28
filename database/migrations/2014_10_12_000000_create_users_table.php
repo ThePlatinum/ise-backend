@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
       $table->string('bio')->default('No profile details');
 
       $table->string('role')->default(0);
+      $table->string('identified')->default(0);
 
       $table->timestamp('dob')->nullable();
       $table->timestamp('email_verified_at')->nullable();
