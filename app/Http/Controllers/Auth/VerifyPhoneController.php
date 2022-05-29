@@ -21,7 +21,7 @@ class VerifyPhoneController extends Controller
 
   public function sendSMS($user)
   {
-    if ($user->phone_verified) {
+    if ($user->phone_verified_at) {
       return ['message' => 'Phone number already verified'];
     }
     
@@ -68,6 +68,11 @@ class VerifyPhoneController extends Controller
     // $status = $result->getResponseData();
     if ($result) {
       $verification->delete();
+
+      $user = User::find($request->user_id);
+      $user->phone_verified_at = now();
+      $user->save();
+
       return response()->json(['message' => 'Phone number verified successfully'], 200);
     } else {
       return response()->json(['message' => 'Incorrect code'], 401);
