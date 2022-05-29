@@ -15,7 +15,7 @@ class VerifyPhoneController extends Controller
 
   function  __construct()
   {
-    $this->basic  = new \Vonage\Client\Credentials\Basic(env("SMS_API_KEY",""), env("SMS_API_SECRET",""));
+    $this->basic  = new \Vonage\Client\Credentials\Basic(config('global.SMS_API_KEY'), config('global.SMS_API_SECRET'));
     $this->client = new \Vonage\Client($this->basic);
   }
 
@@ -34,9 +34,9 @@ class VerifyPhoneController extends Controller
     $response = $this->client->verify()->start($request);
 
     $verification = PhoneVerification::where('user_id', $user->id)->first();
-    if ($verification->count() > 0) $verification->delete();
+    if ($verification) $verification->delete();
 
-    PhoneVerification::updateOrCreate([
+    PhoneVerification::create([
       'user_id' => $user->id,
       'verification_id' => $response->getRequestId()
     ]);
@@ -58,13 +58,29 @@ class VerifyPhoneController extends Controller
     $REQUEST_ID = $verification->verification_id;
     $CODE = $request->code;
 
-    $result = $this->client->verify()->check($REQUEST_ID, $CODE);
-    $status = $result->getResponseData();
-    if ($status == 0) {
-      $verification->delete();
-      return response()->json(['success' => true]);
-    } else {
-      return response()->json(['success' => false]);
+    try {
+      $result = $this->client->verify()->check($REQUEST_ID, $CODE);
+    } catch (\Exception $e) {
+      //throw $th;
+      $result = null;
     }
+    
+    // $status = $result->getResponseData();
+    if ($result) {
+      $verification->delete();
+      return response()->json(['message' => 'Phone number verified successfully'], 200);
+    } else {
+      return response()->json(['message' => 'Incorrect code'], 401);
+    }
+  }
+
+  public function nextascall(Request $request)
+  {
+    $verification = PhoneVerification::where('user_id', $request->user_id)->first();
+    $REQUEST_ID = $verification->verification_id;
+
+    $this->client->verify()->trigger($REQUEST_ID);
+
+    return response()->json(['message' => 'Call initiated', 'success' => true], 200);
   }
 }
