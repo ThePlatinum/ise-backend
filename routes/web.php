@@ -16,12 +16,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+  return view('auth.login');
+})->middleware('guest');
+Route::get('/login', function () {
+  return view('auth.login');
 })->middleware('guest');
 
 Auth::routes(); // Same as using resource
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
-  
+Route::group(['middleware' => ['auth']], function () {
+  Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+});
+
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
   ->middleware(['signed'])->name('verification.verify');
