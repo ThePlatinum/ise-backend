@@ -72,3 +72,31 @@ body::-webkit-scrollbar {
   width: 30vh;
   border-radius: 15px;
 }
+
+.dc{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.count {
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.s-count{
+  font-size: 1rem;
+  display: inline;
+  border: 1px solid #B8B8B8;
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
+.dl {
+  border-left: 1px solid #B8B8B8;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}

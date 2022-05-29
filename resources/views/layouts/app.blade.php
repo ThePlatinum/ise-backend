@@ -21,7 +21,6 @@
       <ul class="menu-links">
 
         <li class="nav-link">
-          <!-- active -->
           <a href="/dashboard">
             <i class='bx bx-home-alt icon'></i>
             <span class="text nav-text">Dashboard</span>
@@ -31,25 +30,40 @@
         <li class="nav-link">
           <a href="/">
             <i class='bx bx-wrench bx-flip-horizontal icon'></i>
-            <span class="text nav-text">Settings</span>
+            <span class="text nav-text">Tasks</span>
+          </a>
+        </li>
+
+        <li class="nav-link">
+          <a href="/">
+            <i class='bx bx-home-alt icon'></i>
+            <span class="text nav-text">Projects</span>
           </a>
         </li>
 
         <li class="nav-link">
           <a href="/">
             <i class='bx bx-user bx-flip-horizontal icon'></i>
-            <span class="text nav-text">Admins</span>
+            <span class="text nav-text">Users</span>
           </a>
         </li>
 
       </ul>
     </div>
     <div class="bottom-content">
+
       <hr />
+        <li class="nav-link">
+          <a href="/">
+            <i class='bx bx-wrench bx-flip-horizontal icon'></i>
+            <span class="text nav-text">Settings</span>
+          </a>
+        </li>
+
       <li class="nav-link">
         <a href="">
           <i class='bx bx-user icon'></i>
-          <span class="text nav-text">Profile</span>
+          <span class="text nav-text">Admins</span>
         </a>
       </li>
 

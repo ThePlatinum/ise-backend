@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::get('/login', function () {
 Auth::routes(); // Same as using resource
 
 Route::group(['middleware' => ['auth']], function () {
-  Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+  Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 });
 
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
