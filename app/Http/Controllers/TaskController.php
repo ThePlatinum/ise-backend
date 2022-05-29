@@ -12,7 +12,7 @@ class TaskController extends Controller
 
   public function index()
   {
-    $all = Task::with('user')->paginate( config('global.PER_PAGE') );
+    $all = Task::with('user')->orderBy('created_at', 'desc')->paginate( config('global.PER_PAGE') );
     return view('tasks.index', compact('all'));
   }
 

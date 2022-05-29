@@ -28,7 +28,7 @@
         </li>
 
         <li class="nav-link">
-          <a href="/">
+          <a href="{{route('tasks')}}">
             <i class='bx bx-wrench bx-flip-horizontal icon'></i>
             <span class="text nav-text">Tasks</span>
           </a>
