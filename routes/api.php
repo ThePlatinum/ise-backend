@@ -29,6 +29,8 @@ Route::POST('register', [UserController::class, 'register']);
 // Categories
 Route::GET('categories', [ProjectsController::class, 'categories']);
 
+// Identity Documents
+Route::GET('accepteddocs', [DocumentController::class, 'acceptedDocuments']);
 
 // Tasks
 Route::GET('tasks', [TaskController::class, 'alltasks']);
@@ -42,7 +44,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
   // Profile
   Route::POST('usernameandphone', [ProfileController::class, 'usernameandphone']);
-  
+
   // Phone verification
   Route::POST('resend-phone', [VerifyPhoneController::class, 'resend']);
   Route::POST('call-phone', [VerifyPhoneController::class, 'nextascall']);
@@ -66,7 +68,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
   // Identity Documents
   Route::POST('identity/submit', [DocumentController::class, 'submitdoc']);
-  
+
   Route::GET('welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
 
