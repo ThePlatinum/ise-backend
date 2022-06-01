@@ -23,19 +23,19 @@ class EventServiceProvider extends ServiceProvider
             SendPhoneVerificationNotification::class,
         ],
         CompleteProfile::class => [
-            SendCompleteProfileNotification::class,
+            Profile\SendCompleteProfileNotification::class,
         ],
         IdentityDocumentSubmitted::class => [
-            SendIdentityDocumentSubmittedNotification::class,
+          Identity\SendIdentityDocumentSubmittedNotification::class,
         ],
         IdentityDocumentStatusChanged::class => [
-            SendIdentityDocumentStatusChangedNotification::class,
+          Identity\SendIdentityDocumentStatusChangedNotification::class,
         ],
         TaskCreated::class => [
-            SendTaskCreatedNotification::class,
+          Tasks\SendTaskCreatedNotification::class,
         ],
         TaskStatusChanged::class => [
-            SendTaskStatusChangedNotification::class,
+            Tasks\SendTaskStatusChangedNotification::class,
         ],
     ];
 

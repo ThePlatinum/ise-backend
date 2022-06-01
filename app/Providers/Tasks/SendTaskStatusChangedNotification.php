@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Tasks;
 
-use App\Providers\IdentityDocumentStatusChanged;
+use App\Providers\TaskStatusChanged;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendIdentityDocumentStatusChangedNotification
+class SendTaskStatusChangedNotification
 {
     /**
      * Create the event listener.
@@ -21,10 +21,10 @@ class SendIdentityDocumentStatusChangedNotification
     /**
      * Handle the event.
      *
-     * @param  \App\Providers\IdentityDocumentStatusChanged  $event
+     * @param  \App\Providers\TaskStatusChanged  $event
      * @return void
      */
-    public function handle(IdentityDocumentStatusChanged $event)
+    public function handle(TaskStatusChanged $event)
     {
         //
     }

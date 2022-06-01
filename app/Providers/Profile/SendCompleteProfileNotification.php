@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Profile;
 
 use App\Providers\CompleteProfile;
 use Illuminate\Contracts\Queue\ShouldQueue;

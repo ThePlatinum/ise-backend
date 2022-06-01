@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Identity;
 
-use App\Providers\TaskCreated;
+use App\Providers\IdentityDocumentSubmitted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendTaskCreatedNotification
+class SendIdentityDocumentSubmittedNotification
 {
     /**
      * Create the event listener.
@@ -21,10 +21,10 @@ class SendTaskCreatedNotification
     /**
      * Handle the event.
      *
-     * @param  \App\Providers\TaskCreated  $event
+     * @param  \App\Providers\IdentityDocumentSubmitted  $event
      * @return void
      */
-    public function handle(TaskCreated $event)
+    public function handle(IdentityDocumentSubmitted $event)
     {
         //
     }
