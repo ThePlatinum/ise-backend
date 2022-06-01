@@ -54,4 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     protected $appends = ['fullname'];
+
+    public function portfolio(){
+      return $this->hasMany(Portfolio::class, 'user_id');
+    }
 }
