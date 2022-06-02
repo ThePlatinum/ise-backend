@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\PortfolioController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\VerifyPhoneController;
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::GET('logout/{user_id}',  [UserController::class, 'logout']);
 });
 
+// TODO: sanctum auth must check user's id
 // Must verify email require passing USER_ID as param or request
 Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
@@ -68,6 +70,12 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
   // Identity Documents
   Route::POST('identity/submit', [DocumentController::class, 'submitdoc']);
+
+  // Portfolio
+  Route::POST('portfolio/new', [PortfolioController::class, 'create']);
+  Route::POST('portfolio/update', [PortfolioController::class, 'update']);
+  Route::GET('portfolio/delete/{user_id}/{portfolio_id}', [PortfolioController::class, 'delete']);
+  Route::GET('portfolio/get/{user_id}', [PortfolioController::class, 'show']);
 
   Route::GET('welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });

@@ -28,7 +28,7 @@ class PortfolioController extends Controller
   {
     //
     $validator = Validator::make($request->all(), [
-      'user_id' => 'required|integer',
+      'user_id' => 'required|exists:users,id',
       'title' => 'required|string|max:255',
       'description' => 'required|string|max:255',
       'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,doc|max:2048',
@@ -46,12 +46,12 @@ class PortfolioController extends Controller
 
     if ($request->hasFile('file')) {
       $file = $request->file('file');
-      $fileName = $request->user_id.'_'.str_replace(' ', '', $request->title).'.'.$file->getClientOriginalExtension();
+      $fileName = $request->user_id . '_' . str_replace(' ', '', $request->title) . '.' . $file->getClientOriginalExtension();
       $file->storeAs('public/uploads/portfolios', $fileName);
     } else {
       $fileName = null;
     }
-    
+    // TODO: Consider using as updateOrCreate
     $port = Portfolio::create([
       'user_id' => $request->user_id,
       'title' => $request->title,
@@ -109,9 +109,10 @@ class PortfolioController extends Controller
   public function update(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'user_id' => 'required|integer',
-      'title' => 'required|string|max:255',
-      'description' => 'required|string|max:255',
+      'user_id' => 'required|exists:users,id',
+      'portfolio_id' => 'required|exists:portfolios,id',
+      'title' => 'nullable|string|max:255',
+      'description' => 'nullable|string|max:255',
       'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf,doc|max:2048',
       'start_date' => 'nullable|date',
       'end_date' => 'nullable|date',
@@ -125,41 +126,41 @@ class PortfolioController extends Controller
       ], 400);
     }
 
-    $portfolio = Portfolio::find($request->id);
-    abort_if($portfolio == null, 400, 'Portfolio entry not found');
+    $portfolio = Portfolio::where('id', $request->portfolio_id)->where('user_id', $request->user_id)->first();
+    if (!$portfolio) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Portfolio entry could not be found for selected user'
+      ], 400);
+    }
 
     if ($request->hasFile('file')) {
-      if($portfolio->file != null) {
-        unlink(storage_path('app/public/uploads/portfolios/'.$portfolio->file)); //Should  be delete
-      }
+      if ($portfolio->file != null)
+        unlink(storage_path('app/public/uploads/portfolios/' . $portfolio->file)); //Should  be delete
       $file = $request->file('file');
-      $fileName = $request->user_id.'_'.str_replace(' ', '', $request->title).'.'.$file->getClientOriginalExtension();
+      $fileName = $request->user_id . '_' . str_replace(' ', '', $request->title) . '.' . $file->getClientOriginalExtension();
       $file->storeAs('public/uploads/portfolios', $fileName);
     } else {
       $fileName = null;
     }
-    
-    $port = $portfolio->update([
-      'user_id' => $request->user_id,
-      'title' => $request->title,
-      'description' => $request->description,
-      'file' => $fileName,
-      'external_link' => $request->external_link,
-      'start_date' => $request->start_date,
-      'end_date' => $request->end_date,
-    ]);
+    if ($portfolio->title)
+      $portfolio->title = $request->title;
+    if ($portfolio->description)
+      $portfolio->description = $request->description;
+    if ($portfolio->file)
+      $portfolio->file = $fileName;
+    if ($portfolio->external_link)
+      $portfolio->external_link = $request->external_link;
+    if ($portfolio->start_date)
+      $portfolio->start_date = $request->start_date;
+    if ($portfolio->end_date)
+      $portfolio->end_date = $request->end_date;
+    $portfolio->save();
 
-    if ($port) {
-      return response()->json([
-        'status' => 'success',
-        'message' => 'Portfolio entry updated successfully'
-      ], 200);
-    } else {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Portfolio entry could not be updated'
-      ], 400);
-    }
+    return response()->json([
+      'status' => 'success',
+      'message' => 'Portfolio entry updated successfully'
+    ], 200);
   }
 
   /**
@@ -168,15 +169,19 @@ class PortfolioController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function delete($id)
+  public function delete($user_id, $portfolio_id)
   {
     //
-    $portfolio = Portfolio::find($id);
-    abort_if($portfolio == null, 400, 'Portfolio entry not found');
-
-    if($portfolio->file != null) {
-      unlink(storage_path('app/public/uploads/portfolios/'.$portfolio->file)); //Should  be delete
+    $portfolio = Portfolio::find($portfolio_id);
+    if (!$portfolio) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Portfolio entry could not be found for selected user'
+      ], 400);
     }
+
+    if ($portfolio->file)
+      unlink(storage_path('app/public/uploads/portfolios/' . $portfolio->file)); //Should  be delete
 
     if ($portfolio->delete()) {
       return response()->json([
@@ -189,6 +194,5 @@ class PortfolioController extends Controller
         'message' => 'Portfolio entry could not be deleted'
       ], 400);
     }
-
   }
 }
