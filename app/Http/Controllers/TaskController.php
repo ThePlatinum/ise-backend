@@ -26,7 +26,10 @@ class TaskController extends Controller
   // Tasks by category
   public function tasks($categoty_id)
   {
-    $taskbycategories = Task::with('user', 'files')->where('category_id', $categoty_id)->paginate( config('global.PER_PAGE') );
+    $taskbycategories = Task::with('user', 'files')
+      ->where('status', 'approved')
+      ->where('category_id', $categoty_id)
+      ->paginate( config('global.PER_PAGE') );
     return response()->json($taskbycategories, 200);
   }
 
@@ -37,7 +40,9 @@ class TaskController extends Controller
 
     // TODO: use Laravel Scout
 
-    $searchresult = Task::with('user', 'files')->where('name', 'like', '%' . $search . '%')
+    $searchresult = Task::with('user', 'files')
+      ->where('status', 'approved')
+      ->where('name', 'like', '%' . $search . '%')
       ->orWhere('description', 'like', '%' . $search . '%')
       ->paginate( config('global.PER_PAGE') );
     return response()->json($searchresult, 200);
@@ -98,8 +103,16 @@ class TaskController extends Controller
 
   public function show($user_id)
   {
-    $task = Task::with('files', 'files')->where('user_id', $user_id)->paginate( config('global.PER_PAGE') );
-    abort_if(!$task, 404);
+    $task = Task::with('files', 'files')
+      ->where('status', 'approved')
+      ->where('user_id', $user_id)
+      ->paginate( config('global.PER_PAGE') );
+    if (!$task) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Task could not be found for selected user'
+      ], 400);
+    }
     return response()->json($task, 200);
   }
 }
