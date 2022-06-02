@@ -8,14 +8,6 @@ use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
-  //
-
-  public function index()
-  {
-    $all = Task::with('user')->orderBy('created_at', 'desc')->paginate( config('global.PER_PAGE') );
-    return view('tasks.index', compact('all'));
-  }
-
   //  All tasks
   public function alltasks()
   {
