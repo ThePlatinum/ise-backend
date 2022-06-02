@@ -11,7 +11,9 @@ class TaskController extends Controller
   //  All tasks
   public function alltasks()
   {
-    $all = Task::with('user')->paginate( config('global.PER_PAGE') );
+    $all = Task::with('user')
+      ->where('status', 'approved')
+      ->paginate( config('global.PER_PAGE') );
     return response()->json($all, 200);
   }
 
