@@ -17,14 +17,15 @@ class TaskFactory extends Factory
     {
         return [
             //
-          'name' => $this->faker->sentence(6, true),
-          'description' => $this->faker->paragraph(10,true),
-          'duration' => $this->faker->numberBetween(1, 100),
+          'name' => $this->faker->sentence(5, true),
+          'description' => $this->faker->paragraph(10, true),
+          'duration' => $this->faker->numberBetween(5, 50),
           'duration_type' => $this->faker->randomElement(['hours', 'days', 'weeks', 'months']),
-          'price' => $this->faker->numberBetween(1, 100),
+          'price' => $this->faker->numberBetween(1000, 10000),
           'currency' => $this->faker->randomElement(['NGN', 'USD']),
           'category_id' => Categories::all()->random()->id,
           'user_id' => User::all()->random()->id,
+          'status' => $this->faker->randomElement(['pending', 'approved', 'pending', 'approved', 'rejected']),
         ];
     }
 }
