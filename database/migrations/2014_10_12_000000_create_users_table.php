@@ -25,11 +25,12 @@ class CreateUsersTable extends Migration
 
       $table->string('phone')->nullable()->unique();
       $table->string('country_of_residence')->nullable();
-
       $table->string('state_of_residence')->nullable();
 
       $table->string('state_of_origin')->nullable();
       $table->string('country_of_origin')->nullable();
+
+      $table->string('skills')->nullable();
 
       $table->string('gender')->nullable();
       $table->string('profile_image')->default('profile_pictures/avater.png');
