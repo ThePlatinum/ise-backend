@@ -103,9 +103,9 @@ class EditController extends Controller
     //
     $validator = Validator::make($request->all(), [
       'user_id' => 'required|exists:users,id',
-      'state' => 'nullable|string|max:255',
-      'country' => 'nullable|string|max:255',
-      'dob' => 'nullable|string|max:255',
+      'state_of_residence' => 'nullable|string|max:255',
+      'country_of_residence' => 'nullable|string|max:255',
+      'dob' => 'nullable|date',
       'gender' => ['nullable', Rule::in(['m', 'f'])]
     ]);
 
@@ -124,10 +124,10 @@ class EditController extends Controller
       ], 404);
     }
 
-    if ($request->has('state'))
-      $user->state = $request->state;
-    if ($request->has('country'))
-      $user->country = $request->country;
+    if ($request->has('state_of_residence'))
+      $user->state_of_residence = $request->state_of_residence;
+    if ($request->has('country_of_residence'))
+      $user->country_of_residence = $request->country_of_residence;
     if ($request->has('dob'))
       $user->dob = $request->dob;
     if ($request->has('gender'))
