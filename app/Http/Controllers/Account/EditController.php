@@ -178,5 +178,6 @@ class EditController extends Controller
     }
 
     // TODO: Send email to user to notify of the new password change
+    // TODO: Log user out
   }
 }

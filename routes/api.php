@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\EditController;
 use App\Http\Controllers\Account\PortfolioController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     ->name('verification.send');
 
   // Profile
+  // TODO: Make this call once
   Route::POST('usernameandphone', [ProfileController::class, 'usernameandphone']);
 
   // Phone verification
@@ -62,6 +64,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::GET('getprofile/{user_id}',  [ProfileController::class, 'getprofile']);
   Route::POST('basicinfo', [ProfileController::class, 'basicinfo']);
   Route::POST('setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
+  Route::POST('profile/bio',  [EditController::class, 'about']);
 
   // Task
   Route::POST('task/new', [TaskController::class, 'store']);
