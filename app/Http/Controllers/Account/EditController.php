@@ -74,6 +74,13 @@ class EditController extends Controller
       ], 404);
     }
 
+    if ($request->phone == $user->phone) {
+      return response()->json([
+        'status' => 'error',
+        'errors' => 'Phone number is already set',
+      ], 422);
+    }
+
     $user->phone = $request->phone;
     $user->phone_verified_at = null;
     $user->save();
@@ -144,8 +151,8 @@ class EditController extends Controller
     // 
     $validator = Validator::make($request->all(), [
       'user_id' => 'required|exists:users,id',
-      'old_password' => 'required|string|min:6|max:255',
-      'password' => 'required|string|min:6|max:255',
+      'old' => 'required|string|min:6|max:255',
+      'new' => 'required|string|min:6|max:255',
     ]);
 
     if ($validator->fails()) {
@@ -163,13 +170,20 @@ class EditController extends Controller
       ], 404);
     }
 
-    if (!password_verify($request->old_password, $user->password)) {
+    if ($request->new == $request->old) {
+      return response()->json([
+        'status' => 'error',
+        'errors' => 'New password cannot be the same as the old password',
+      ], 422);
+    }
+
+    if (!password_verify($request->old, $user->password)) {
       return response()->json([
         'status' => 'error',
         'errors' => 'Old password is incorrect',
       ], 422);
     } else {
-      $user->password = Hash::make($request->password);
+      $user->password = Hash::make($request->new);
       $user->save();
 
       return response()->json([

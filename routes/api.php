@@ -65,6 +65,8 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::POST('basicinfo', [ProfileController::class, 'basicinfo']);
   Route::POST('setprofilepicture',  [ProfileController::class, 'setprofilepicture']);
   Route::POST('profile/bio',  [EditController::class, 'about']);
+  Route::POST('profile/password',  [EditController::class, 'password']);
+  Route::POST('profile/phone',  [EditController::class, 'phone']);
 
   // Task
   Route::POST('task/new', [TaskController::class, 'store']);
