@@ -194,4 +194,40 @@ class EditController extends Controller
     // TODO: Send email to user to notify of the new password change
     // TODO: Log user out
   }
+
+  /**
+   * Update a user's skills
+   *
+   * @param  Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function skills(Request $request){
+    $validator = Validator::make($request->all(), [
+      'user_id' => 'required|exists:users,id',
+      'skills' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'status' => 'error',
+        'errors' => $validator->errors(),
+      ], 422);
+    }
+
+    $user = User::find($request->user_id);
+    if (!$user) {
+      return response()->json([
+        'status' => 'error',
+        'errors' => 'User not found',
+      ], 404);
+    }
+
+    $user->skills = explode(',',$request->skills);
+    $user->save();
+
+    return response()->json([
+      'message' => 'Skills updated successfully',
+    ], 200);
+
+  }
 }
