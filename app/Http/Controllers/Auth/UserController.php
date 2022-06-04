@@ -21,7 +21,7 @@ class UserController extends Controller
     ]);
     if ($validator->fails()) {
       $response = ['status' => false, 'message' => $validator->errors()->all()];
-      return response($response, 200);
+      return response($response, 401);
     }
 
     $request['password'] = Hash::make($request['password']);
@@ -44,7 +44,7 @@ class UserController extends Controller
     if ($validator->fails()) {
       $status = false;
       $response = ['status' => $status, 'message' => $validator->errors()->all()];
-      return response($response, 200);
+      return response($response, 401);
     }
     $user = User::where('email', $request->email)->first();
     if ($user)
@@ -69,7 +69,9 @@ class UserController extends Controller
   public function verifyemail($user_id)
   {
     $user = User::find($user_id);
-    abort_if(!$user, 400);
+    if(!$user){
+      return response(['status' => false, 'message' => 'User not found!'], 401);
+    }
     
     return response()->json(200);
   }
