@@ -10,7 +10,7 @@ use App\Http\Controllers\MailsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Super\SuperController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Tasks\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
