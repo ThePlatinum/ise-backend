@@ -43,4 +43,18 @@ class Task extends Model
   {
     return $this->hasMany(TaskFiles::class, 'task_id');
   }
+
+  public function reviews()
+  {
+    return $this->hasMany(Reviews::class, 'task_id');
+  }
+
+  public function getRatingAttribute()
+  {
+    return $this->reviews->avg('rating');
+  }
+
+  protected $appends = [
+    'rating',
+  ];
 }
