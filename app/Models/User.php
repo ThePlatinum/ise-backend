@@ -67,7 +67,12 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->reviews()->avg('rating');
   }
 
+  public function getRatingsCountsAttribute()
+  {
+    return $this->reviews()->count();
+  }
+
   protected $appends = [
-    'fullname', 'ratings'
+    'fullname', 'ratings', 'ratings_counts'
   ];
 }

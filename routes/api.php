@@ -11,6 +11,7 @@ use App\Http\Controllers\Identity\DocumentController;
 use App\Http\Controllers\MailsController;
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Super\SuperController;
+use App\Http\Controllers\Tasks\ReviewController;
 use App\Http\Controllers\Tasks\TaskController;
 
 use App\Models\Categories;
@@ -74,6 +75,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::POST('task/new', [TaskController::class, 'store']);
   Route::POST('task/update/{task_id}', [TaskController::class, 'update']);
   Route::POST('task/delete', [TaskController::class, 'delete']);
+  Route::POST('task/review', [ReviewController::class, 'store']);
 
   // Identity Documents
   Route::POST('identity/submit', [DocumentController::class, 'submitdoc']);
