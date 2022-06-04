@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\VerifyPhoneController;
 use App\Http\Controllers\Identity\DocumentController;
 use App\Http\Controllers\MailsController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Super\SuperController;
 use App\Http\Controllers\Tasks\TaskController;
 
