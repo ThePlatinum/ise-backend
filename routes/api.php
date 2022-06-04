@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Account\EditController;
 use App\Http\Controllers\Account\PortfolioController;
 use App\Http\Controllers\Auth\UserController;
@@ -8,28 +10,26 @@ use App\Http\Controllers\Auth\VerifyPhoneController;
 use App\Http\Controllers\Identity\DocumentController;
 use App\Http\Controllers\MailsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Super\SuperController;
 use App\Http\Controllers\Tasks\TaskController;
-use Illuminate\Support\Facades\Route;
+
+use App\Models\Categories;
+
 
 /*
-|--------------------------------------------------------------------------
 | API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
+
 
 //Auths
 Route::POST('login', [UserController::class, 'login']);
 Route::POST('register', [UserController::class, 'register']);
 
 // Categories
-Route::GET('categories', [ProjectsController::class, 'categories']);
+Route::GET('categories', function () {
+    $allcat = Categories::get();
+    return response($allcat, 200);
+});
 
 // Identity Documents
 Route::GET('accepteddocs', [DocumentController::class, 'acceptedDocuments']);
