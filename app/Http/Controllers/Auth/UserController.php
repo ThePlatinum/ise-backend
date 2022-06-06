@@ -51,7 +51,16 @@ class UserController extends Controller
       if (Hash::check($request->password, $user->password)) {
         $token = $user->createToken('Ise Password Grant Client')->plainTextToken;
 
-        $response = ['status' => true, 'token' => $token,  "user_id" => $user->id, 'message' => 'Successfully logged in!'];
+        $response = [
+          'status' => true,
+          'token' => $token,
+          'user_id' => $user->id,
+          'email_verified_at' => $user->email_verified_at,
+          'phone_verified_at' => $user->phone_verified_at,
+          'identified' => $user->identified,
+          'profile_image' => $user->profile_image,
+          'message' => 'Successfully logged in!'
+        ];
         return response($response, 200);
       } else
         return response(['status' => false, "message" => "Password mismatch"], 401);
