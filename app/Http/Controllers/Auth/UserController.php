@@ -56,7 +56,9 @@ class UserController extends Controller
           'token' => $token,
           'user_id' => $user->id,
           'email_verified_at' => $user->email_verified_at,
+          'phone' => $user->phone,
           'phone_verified_at' => $user->phone_verified_at,
+          'submited_doc' => $user->submited_doc,
           'identified' => $user->identified,
           'profile_image' => $user->profile_image,
           'message' => 'Successfully logged in!'
