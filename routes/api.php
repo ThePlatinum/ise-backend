@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\VerifyPhoneController;
 use App\Http\Controllers\Identity\DocumentController;
 use App\Http\Controllers\MailsController;
 use App\Http\Controllers\Account\ProfileController;
+use App\Http\Controllers\Payments\OrderController;
 use App\Http\Controllers\Super\SuperController;
 use App\Http\Controllers\Tasks\ReviewController;
 use App\Http\Controllers\Tasks\TaskController;
@@ -86,9 +87,13 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::GET('portfolio/delete/{user_id}/{portfolio_id}', [PortfolioController::class, 'delete']);
   Route::GET('portfolio/get/{user_id}', [PortfolioController::class, 'show']);
 
+  // Payments
+  Route::GET('paymentreturn', [OrderController::class, 'paymentreturn']);
+
   Route::GET('welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
 
+  Route::GET('pay/{buyer_id}/{task_id}', [OrderController::class, 'to_pay']);
 
 // Super
 Route::GET('migrate', [SuperController::class, 'migrate']);
