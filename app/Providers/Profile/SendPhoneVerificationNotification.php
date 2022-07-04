@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Profile;
 
 use App\Http\Controllers\Auth\VerifyPhoneController;
-use App\Providers\AddPhone;
+use App\Providers\Events\AddPhone;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -22,7 +22,7 @@ class SendPhoneVerificationNotification
     /**
      * Handle the event.
      *
-     * @param  \App\Providers\AddPhone  $event
+     * @param  \App\Providers\Events\AddPhone  $event
      * @return void
      */
     public function handle(AddPhone $event)

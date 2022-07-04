@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\AddPhone;
+use App\Providers\Events\AddPhone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

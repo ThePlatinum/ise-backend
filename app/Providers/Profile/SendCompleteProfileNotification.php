@@ -2,7 +2,7 @@
 
 namespace App\Providers\Profile;
 
-use App\Providers\CompleteProfile;
+use App\Providers\Events\CompleteProfile;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
