@@ -20,19 +20,17 @@ class UserController extends Controller
       'password' => 'required|string|min:6'
     ]);
     if ($validator->fails()) {
-      $response = ['status' => false, 'message' => $validator->errors()->all()];
-      return response($response, 401);
+      return response(['status' => false, 'message' => $validator->errors()->all()], 401);
     }
 
     $request['password'] = Hash::make($request['password']);
     $request['remember_token'] = Str::random(10);
 
     $user = User::create($request->toArray());
-    $token = $user->createToken('Ise Password Grant Client')->plainTextToken;
+    $token = $user->createToken( $user )->plainTextToken;
 
     event(new Registered($user));
-    $response = ['status' => true, 'token' => $token, 'message' => 'You have successfully registered!'];
-    return response($response, 200);
+    return response(['status' => true, 'user_id' => $user->id, 'token' => $token, 'message' => 'You have successfully registered!'], 200);
   }
 
   public function login(Request $request)
@@ -43,13 +41,12 @@ class UserController extends Controller
     ]);
     if ($validator->fails()) {
       $status = false;
-      $response = ['status' => $status, 'message' => $validator->errors()->all()];
-      return response($response, 401);
+      return response(['status' => $status, 'message' => $validator->errors()->all()], 401);
     }
     $user = User::where('email', $request->email)->first();
     if ($user)
       if (Hash::check($request->password, $user->password)) {
-        $token = $user->createToken('Ise Password Grant Client')->plainTextToken;
+        $token = $user->createToken( $user )->plainTextToken;
 
         $response = [
           'status' => true,
