@@ -26,7 +26,7 @@ class ProfileController extends Controller
       'phone' => 'required|unique:users|string',
     ]);
     if ($validator->fails()) {
-      return response()->json(['error' => $validator->errors()], 401);
+      return response()->json(['error' => $validator->errors()], 400);
     }
     $user = User::find($request->user_id);
     if (!$user)
