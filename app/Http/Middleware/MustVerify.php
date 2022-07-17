@@ -28,8 +28,13 @@ class MustVerify
       
     if (! $user->hasVerifiedEmail() ) {
       return response()->json([
-        'message' => 'You must verify your email address before continuing.',
+        'message' => 'You must verify your account.',
         'status' => false,
+        'email_verified_at' => $user->email_verified_at,
+        'phone' => $user->phone,
+        'phone_verified_at' => $user->phone_verified_at,
+        'submited_doc' => $user->submited_doc,
+        'identified' => $user->identified,
       ], 200);
     }
     
