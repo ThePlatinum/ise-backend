@@ -46,18 +46,12 @@ class UserController extends Controller
     $user = User::where('email', $request->email)->first();
     if ($user)
       if (Hash::check($request->password, $user->password)) {
-        $token = $user->createToken( $user )->plainTextToken;
+        $token = $user->createToken( $user->id )->plainTextToken;
 
         $response = [
           'status' => true,
           'token' => $token,
           'user_id' => $user->id,
-          'email_verified_at' => $user->email_verified_at,
-          'phone' => $user->phone,
-          'phone_verified_at' => $user->phone_verified_at,
-          'submited_doc' => $user->submited_doc,
-          'identified' => $user->identified,
-          'profile_image' => $user->profile_image,
           'message' => 'Successfully logged in!'
         ];
         return response($response, 200);
@@ -69,8 +63,10 @@ class UserController extends Controller
 
   public function logout($user_id)
   {
-    $token = User::find($user_id)->token();
-    $token->revoke();
+    // TODO: Device based Logout
+    // $token = str_replace('Bearer ', '', $request->header('Authorization'));
+    // dd(User::find($user_id)->tokens()->get());
+    User::find($user_id)->tokens()->delete();
     return response(['status' => true, 'message' => 'Successfully logged out!'], 200);
   }
 
