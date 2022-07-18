@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tasks;
 
 use App\Http\Controllers\Controller;
+use App\Models\Categories;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,11 +21,12 @@ class TaskController extends Controller
   }
 
   // Tasks by category
-  public function tasks($categoty_id)
+  public function tasks($category_slug)
   {
+    $category_id = Categories::where('slug', $category_slug)->first()->id;
     $taskbycategories = Task::with('user', 'files')
       ->where('status', 'approved')
-      ->where('category_id', $categoty_id)
+      ->where('category_id', $category_id)
       ->paginate( config('global.PER_PAGE') );
     return response()->json($taskbycategories, 200);
   }
