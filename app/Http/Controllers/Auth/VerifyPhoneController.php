@@ -75,7 +75,7 @@ class VerifyPhoneController extends Controller
 
       return response()->json(['message' => 'Phone number verified successfully'], 200);
     } else {
-      return response()->json(['message' => 'Incorrect code'], 401);
+      return response()->json(['message' => 'Incorrect code'], 400);
     }
   }
 
