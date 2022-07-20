@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AcceptedDocument;
 use App\Models\IdentityDocument;
 use App\Models\User;
+use App\Providers\Identity\SendIdentityDocumentSubmittedNotification;
 use App\Providers\IdentityDocumentSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,10 +38,11 @@ class DocumentController extends Controller
       'name_on_document' => 'required|string|max:255',
       'document_number' => 'required|string|max:255',
       'document_expiry' => 'nullable|date',
-      'file' => 'required|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+      'file' => 'required',
     ]);
+    // TODO: |file|mimes:jpeg,png,jpg|max:2048'
     if ($validator->fails())
-      return response(['status' => false, 'message' => $validator->errors()->all()], 200);
+      return response(['status' => false, 'message' => $validator->errors()->all()], 400);
 
     $user = User::find($request->user_id);
     if ($user->identified)
@@ -48,11 +50,13 @@ class DocumentController extends Controller
     
     $document_type = AcceptedDocument::where('id', $request->type_id)->first();
 
-    if ($request->hasFile('file')) {
-      $file = $request->file('file');
-      $file_name = 'user_' . $user->id .'_' . $document_type->document_type . '.' . $file->getClientOriginalExtension();
+    if (! $request->hasFile('file')) {
+      // $file = $request->file('file');
+      // $file_name = 'user_' . $user->id .'_' . $document_type->document_type . '.' . $file->getClientOriginalExtension();
 
-      $file->storeAs('public/identitydocuments/', $file_name);
+      // $file->storeAs('identitydocuments/', $file_name);
+
+      $file_name = 'file_will_upload.jpeg';
 
       $submited = IdentityDocument::create([
         'user_id' => $request->user_id,
@@ -61,12 +65,12 @@ class DocumentController extends Controller
         'document_number' => $request->document_number,
         'document_expiry' => $request->document_expiry,
         'file_name' =>  $file_name,
-        'file_type' => $request->file->getClientOriginalExtension(),
+        'file_type' => $request->file, //->getClientOriginalExtension()
         'file_url' => '/uploads/identitydocuments/' . $file_name
       ]);
     }
 
-    event(new IdentityDocumentSubmitted($user, $submited));
+    event(new SendIdentityDocumentSubmittedNotification($user, $submited));
     // TODO: Send email to user and admin to notify of submission
 
     return response(['status' => true, 'message' => 'Document submitted'], 200);
