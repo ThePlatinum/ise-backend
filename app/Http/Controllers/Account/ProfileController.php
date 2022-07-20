@@ -50,11 +50,11 @@ class ProfileController extends Controller
       'gender' => 'required|string',
       'dob' => 'required|date',
       'state_of_residence' => 'required|string',
-      'state_of_origin' => 'required|string',
-      'country_of_origin' => 'required|string'
+      // 'state_of_origin' => 'required|string',
+      // 'country_of_origin' => 'required|string'
     ]);
     if ($validator->fails())
-      return response(['status' => false, 'message' => $validator->errors()->all()], 200);
+      return response(['status' => false, 'message' => $validator->errors()->all()], 400);
     else
       $user = User::find($request->user_id);
     abort_if(!$user, 404);
@@ -63,8 +63,8 @@ class ProfileController extends Controller
     $user->othername = $request->othername;
     $user->gender = $request->gender;
     $user->dob = $request->dob;
-    $user->state_of_origin = $request->state_of_origin;
-    $user->country_of_origin = $request->country_of_origin;
+    // $user->state_of_origin = $request->state_of_origin;
+    // $user->country_of_origin = $request->country_of_origin;
     $user->state_of_residence = $request->state_of_residence;
 
     $user->save();
