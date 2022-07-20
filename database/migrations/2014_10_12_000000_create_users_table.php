@@ -37,7 +37,7 @@ class CreateUsersTable extends Migration
       $table->string('bio')->default('No profile details');
 
       $table->string('role')->default(0);
-      $table->string('submited_doc')->nullable();
+      $table->boolean('submited_doc')->default(false);
       $table->string('identified')->default(0);
 
       $table->timestamp('dob')->nullable();

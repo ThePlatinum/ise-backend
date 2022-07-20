@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AcceptedDocument;
 use App\Models\IdentityDocument;
 use App\Models\User;
-use App\Providers\Identity\SendIdentityDocumentSubmittedNotification;
-use App\Providers\IdentityDocumentSubmitted;
+use App\Providers\Events\IdentityDocumentSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -70,7 +69,7 @@ class DocumentController extends Controller
       ]);
     }
 
-    event(new SendIdentityDocumentSubmittedNotification($user, $submited));
+    event(new IdentityDocumentSubmitted($user, $submited));
     // TODO: Send email to user and admin to notify of submission
 
     return response(['status' => true, 'message' => 'Document submitted'], 200);
