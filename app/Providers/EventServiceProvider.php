@@ -26,16 +26,16 @@ class EventServiceProvider extends ServiceProvider
       Profile\SendCompleteProfileNotification::class,
     ],
     Events\IdentityDocumentSubmitted::class => [
-      Identity\SendIdentityDocumentSubmittedNotification::class,
+      Identity\IdentityDocumentSubmittedNotification::class,
     ],
     Events\IdentityDocumentStatusChanged::class => [
-      Identity\SendIdentityDocumentStatusChangedNotification::class,
+      Identity\IdentityDocumentStatusChangedNotification::class,
     ],
     Events\TaskCreated::class => [
-      Tasks\SendTaskCreatedNotification::class,
+      Tasks\TaskCreatedNotification::class,
     ],
     Events\TaskStatusChanged::class => [
-      Tasks\SendTaskStatusChangedNotification::class,
+      Tasks\TaskStatusChangedNotification::class,
     ],
   ];
 

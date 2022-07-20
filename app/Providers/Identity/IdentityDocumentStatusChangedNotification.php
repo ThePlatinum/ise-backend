@@ -2,11 +2,11 @@
 
 namespace App\Providers\Identity;
 
-use App\Providers\IdentityDocumentStatusChanged;
+use App\Providers\Events\IdentityDocumentStatusChanged;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendIdentityDocumentStatusChangedNotification
+class IdentityDocumentStatusChangedNotification
 {
     /**
      * Create the event listener.
@@ -21,7 +21,7 @@ class SendIdentityDocumentStatusChangedNotification
     /**
      * Handle the event.
      *
-     * @param  \App\Providers\IdentityDocumentStatusChanged  $event
+     * @param  \App\Providers\Events\IdentityDocumentStatusChanged  $event
      * @return void
      */
     public function handle(IdentityDocumentStatusChanged $event)

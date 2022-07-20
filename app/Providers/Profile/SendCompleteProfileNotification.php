@@ -21,7 +21,7 @@ class SendCompleteProfileNotification
     /**
      * Handle the event.
      *
-     * @param  \App\Providers\CompleteProfile  $event
+     * @param  \App\Providers\Events\CompleteProfile  $event
      * @return void
      */
     public function handle(CompleteProfile $event)

@@ -2,11 +2,11 @@
 
 namespace App\Providers\Tasks;
 
-use App\Providers\TaskStatusChanged;
+use App\Providers\Events\TaskStatusChanged;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendTaskStatusChangedNotification
+class TaskStatusChangedNotification
 {
     /**
      * Create the event listener.
@@ -21,7 +21,7 @@ class SendTaskStatusChangedNotification
     /**
      * Handle the event.
      *
-     * @param  \App\Providers\TaskStatusChanged  $event
+     * @param  \App\Providers\Events\TaskStatusChanged  $event
      * @return void
      */
     public function handle(TaskStatusChanged $event)
