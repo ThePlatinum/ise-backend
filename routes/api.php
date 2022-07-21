@@ -14,7 +14,7 @@ use App\Http\Controllers\Payments\OrderController;
 use App\Http\Controllers\Super\SuperController;
 use App\Http\Controllers\Tasks\ReviewController;
 use App\Http\Controllers\Tasks\TaskController;
-
+use App\Http\Controllers\Tasks\UserTaskController;
 use App\Models\Categories;
 
 
@@ -40,7 +40,9 @@ Route::GET('accepteddocs', [DocumentController::class, 'acceptedDocuments']);
 Route::GET('tasks', [TaskController::class, 'alltasks']);
 Route::GET('tasks/{category_slug}', [TaskController::class, 'tasks']);
 Route::GET('task/search', [TaskController::class, 'search']);
-Route::GET('tasks/of/{user_id}', [TaskController::class, 'show']);
+Route::GET('tasks/of/{user_id}', [UserTaskController::class, 'show_all']);
+Route::GET('tasks/approved/of/{user_id}', [UserTaskController::class, 'show_approved']);
+Route::GET('tasks/not_approved/of/{user_id}', [UserTaskController::class, 'show_approved']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::POST('email/verification-notification', [VerifyEmailController::class, 'resendNotification'])

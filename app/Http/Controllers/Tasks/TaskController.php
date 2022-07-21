@@ -62,7 +62,7 @@ class TaskController extends Controller
       $response = ['status' => false, 'message' => $validator->errors()->all()];
       return response($response, 200);
     }
-    $task = Task::create($request->all());
+    Task::create($request->all());
     return response()->json(['Task Added'], 200);
   }
 
@@ -97,20 +97,5 @@ class TaskController extends Controller
     }
     $task->delete();
     return response()->json(['Task Deleted'], 200);
-  }
-
-  public function show($user_id)
-  {
-    $task = Task::with('files', 'files')
-      ->where('status', 'approved')
-      ->where('user_id', $user_id)
-      ->paginate( config('global.PER_PAGE') );
-    if (!$task) {
-      return response()->json([
-        'status' => 'error',
-        'message' => 'Task could not be found for selected user'
-      ], 400);
-    }
-    return response()->json($task, 200);
   }
 }
