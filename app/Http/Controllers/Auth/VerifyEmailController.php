@@ -29,6 +29,6 @@ class VerifyEmailController extends Controller
         
         $user->sendEmailVerificationNotification();
 
-        return ['message'=> 'OK.'];
+        return ['message'=> 'Verification link sent successfully'];
     }
 }
