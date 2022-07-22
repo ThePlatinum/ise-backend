@@ -38,6 +38,7 @@ Route::GET('accepteddocs', [DocumentController::class, 'acceptedDocuments']);
 
 // Tasks
 Route::GET('tasks', [TaskController::class, 'alltasks']);
+Route::GET('tasks/get/{task_slug}', [TaskController::class, 'get_task']);
 Route::GET('tasks/{category_slug}', [TaskController::class, 'tasks']);
 Route::GET('task/search', [TaskController::class, 'search']);
 Route::GET('tasks/of/{user_id}', [UserTaskController::class, 'show_all']);
