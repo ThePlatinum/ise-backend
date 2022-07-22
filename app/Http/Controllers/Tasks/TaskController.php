@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tasks;
 use App\Http\Controllers\Controller;
 use App\Models\Categories;
 use App\Models\Task;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -62,12 +63,15 @@ class TaskController extends Controller
       $response = ['status' => false, 'message' => $validator->errors()->all()];
       return response($response, 200);
     }
-    Task::create($request->all());
+    $task = Task::create($request->all());
+    $task->slug = Str::slug($task->id.$task->name, '_');
+    $task->save();
     return response()->json(['Task Added'], 200);
   }
 
   public function update(Request $request, $task_id)
   {
+    // TODO: Fix with slug
     $validator = Validator::make($request->all(), [
       'name' => 'required|string|max:255',
       'description' => 'required|string',
@@ -97,5 +101,13 @@ class TaskController extends Controller
     }
     $task->delete();
     return response()->json(['Task Deleted'], 200);
+  }
+
+  public function get_task($task_slug){
+    $task = Task::where('slug', $task_slug)->first();
+    if (!$task) {
+      return response()->json(['Task Not Found'], 404);
+    }
+    return response()->json($task, 200);
   }
 }
