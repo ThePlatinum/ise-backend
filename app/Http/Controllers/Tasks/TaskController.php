@@ -61,10 +61,10 @@ class TaskController extends Controller
     ]);
     if ($validator->fails()) {
       $response = ['status' => false, 'message' => $validator->errors()->all()];
-      return response($response, 200);
+      return response($response, 400);
     }
     $task = Task::create($request->all());
-    $task->slug = Str::slug($task->id.$task->name, '_');
+    $task->slug = Str::slug($task->id.'_'.$task->name, '_');
     $task->save();
     return response()->json(['Task Added'], 200);
   }
