@@ -20,7 +20,7 @@ class UserController extends Controller
       'password' => 'required|string|min:6'
     ]);
     if ($validator->fails()) {
-      return response(['status' => false, 'message' => $validator->errors()->all()], 401);
+      return response(['status' => false, 'message' => $validator->errors()->first()], 401);
     }
 
     $request['password'] = Hash::make($request['password']);
@@ -41,7 +41,7 @@ class UserController extends Controller
     ]);
     if ($validator->fails()) {
       $status = false;
-      return response(['status' => $status, 'message' => $validator->errors()->all()], 401);
+      return response(['status' => $status, 'message' => $validator->errors()->first()], 401);
     }
     $user = User::where('email', $request->email)->first();
     if ($user)

@@ -20,7 +20,7 @@ class OrderController extends Controller
         'quantity' => 'required|numeric|min:0',
       ]);
 
-      if ($validator->fails()) return response()->json($validator->errors()->all(), 400);
+      if ($validator->fails()) return response()->json($validator->errors()->first(), 400);
 
       $buyer = $request->buyer;
       $task = $request->task;
@@ -64,9 +64,7 @@ class OrderController extends Controller
             'duration' => $the_task->duration,
             'duration_type' => $the_task->duration_type,
           ]);
-          return response()->json([
-            'pay_route' => $response->json()['data']['authorization_url']
-          ], 200);
+          return response()->json($response->json()['data']['authorization_url'], 200);
       } catch (\Throwable $th) {
         //throw $th;
         return response()->json('Oops, an error occured, please retry', 402);

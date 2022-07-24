@@ -54,7 +54,7 @@ class ProfileController extends Controller
       // 'country_of_origin' => 'required|string'
     ]);
     if ($validator->fails())
-      return response(['status' => false, 'message' => $validator->errors()->all()], 400);
+      return response(['status' => false, 'message' => $validator->errors()->first()], 400);
     else
       $user = User::find($request->user_id);
     abort_if(!$user, 404);
@@ -76,7 +76,7 @@ class ProfileController extends Controller
     // TODO: Delete previous img if exist
     $validator = Validator::make($request->all(), ['image' => 'image|mimes:jpeg,png,jpg,svg']);
     if ($validator->fails())
-      return response(['status' => false, 'message' => $validator->errors()->all()], 200);
+      return response(['status' => false, 'message' => $validator->errors()->first()], 200);
     else
       $user = User::find($request->user_id);
     if ($user) {

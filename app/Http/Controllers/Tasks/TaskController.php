@@ -60,7 +60,7 @@ class TaskController extends Controller
       'user_id' => 'required|integer'
     ]);
     if ($validator->fails()) {
-      $response = ['status' => false, 'message' => $validator->errors()->all()];
+      $response = ['status' => false, 'message' => $validator->errors()->first()];
       return response($response, 400);
     }
     $task = Task::create($request->all());
@@ -83,7 +83,7 @@ class TaskController extends Controller
       'user_id' => 'required|integer'
     ]);
     if ($validator->fails()) {
-      $response = ['status' => false, 'message' => $validator->errors()->all()];
+      $response = ['status' => false, 'message' => $validator->errors()->first()];
       return response($response, 200);
     }
     $task = Task::find($task_id);

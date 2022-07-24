@@ -41,7 +41,7 @@ class DocumentController extends Controller
     ]);
     // TODO: |file|mimes:jpeg,png,jpg|max:2048'
     if ($validator->fails())
-      return response(['status' => false, 'message' => $validator->errors()->all()], 400);
+      return response(['status' => false, 'message' => $validator->errors()->first()], 400);
 
     $user = User::find($request->user_id);
     if ($user->identified)
