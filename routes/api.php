@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::GET('welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
 
-  Route::GET('pay/{buyer_id}/{task_id}', [OrderController::class, 'to_pay']);
+  Route::POST('order_task', [OrderController::class, 'order_task']);
 
 // Super
 Route::GET('migrate', [SuperController::class, 'migrate']);

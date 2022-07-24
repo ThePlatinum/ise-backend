@@ -3,38 +3,38 @@
 namespace App\Http\Controllers\Payments;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
     //
-    public function to_pay($task, $buyer){
+    public function order_task(Request $request){
+      $validator = Validator::make($request->all(), [
+        'buyer' => 'required|exists:users,id',
+        'task' => 'required|exists:tasks,id',
+        'quantity' => 'required|numeric|min:0',
+      ]);
+
+      if ($validator->fails()) return response()->json($validator->errors()->all(), 400);
+
+      $buyer = $request->buyer;
+      $task = $request->task;
       $the_buyer = User::find($buyer);
       $the_task = Task::find($task);
       
-      if(!$the_buyer)
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Invalid User'
-        ], 402);
-
-      if(!$the_task)
-        return response()->json([
-          'status' => 'error',
-          'message' => 'Invalid Task'
-        ], 402);
-      
-      if($the_task->user->id == $the_buyer->id)
-        return response()->json([
-          'status' => 'error',
-          'message' => 'You can not buy your tasks'
-        ], 402);
+      if(!$the_buyer || !$the_task)
+        return response()->json('Invalid Order', 400);
+        
+      if ($the_task->user->id == $the_buyer->id)
+        return response()->json('You can not buy a task you own', 400);
 
       // TODO: Consider the currency
-      $cost = 100*$the_task->price;
+      $cost = 100 * $the_task->price * $request->quantity;
 
       // TODO: Use consts
       $URL = 'https://api.paystack.co/transaction/initialize';
@@ -54,18 +54,26 @@ class OrderController extends Controller
         ]);
   
         if ($response->successful())
+          Order::create([
+            'task_id' => $task,
+            'buyer_id' => $buyer,
+            'seller_id' => $the_task->user->id,
+            'task_title' => $the_task->name,
+            'order_price' => $cost,
+            'quantity' => $request->quantity,
+            'duration' => $the_task->duration,
+            'duration_type' => $the_task->duration_type,
+          ]);
           return response()->json([
             'pay_route' => $response->json()['data']['authorization_url']
           ], 200);
       } catch (\Throwable $th) {
         //throw $th;
-        return response()->json([
-          'error' => 'An error occured'
-        ], 500);
+        return response()->json('Oops, an error occured, please retry', 402);
       }
     }
   
-    public function paymentreturn() {
+    public function confirm_payment() {
       $reference = isset($_GET['reference']) ? $_GET['reference'] : '';
       // $trxref = isset($_GET['reference']) ? $_GET['reference'] : '';
       $buyer = Auth()->user()->id;
