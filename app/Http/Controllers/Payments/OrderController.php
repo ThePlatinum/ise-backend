@@ -15,14 +15,14 @@ class OrderController extends Controller
     //
     public function order_task(Request $request){
       $validator = Validator::make($request->all(), [
-        'buyer' => 'required|exists:users,id',
+        'user_id' => 'required|exists:users,id',
         'task' => 'required|exists:tasks,id',
         'quantity' => 'required|numeric|min:0',
       ]);
 
       if ($validator->fails()) return response()->json($validator->errors()->first(), 400);
 
-      $buyer = $request->buyer;
+      $buyer = $request->user_id;
       $task = $request->task;
       $the_buyer = User::find($buyer);
       $the_task = Task::find($task);

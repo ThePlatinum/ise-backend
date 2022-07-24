@@ -81,6 +81,9 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
   Route::POST('task/delete', [TaskController::class, 'delete']);
   Route::POST('task/review', [ReviewController::class, 'store']);
 
+  // Order
+  Route::POST('order_task', [OrderController::class, 'order_task']);
+
   // Identity Documents
   Route::POST('identity/submit', [DocumentController::class, 'submitdoc']);
 
@@ -95,8 +98,6 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
   Route::GET('welcomemail/{user_id}', [MailsController::class, 'welcome']);
 });
-
-  Route::POST('order_task', [OrderController::class, 'order_task']);
 
 // Super
 Route::GET('migrate', [SuperController::class, 'migrate']);
