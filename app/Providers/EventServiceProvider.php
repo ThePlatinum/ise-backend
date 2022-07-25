@@ -37,6 +37,12 @@ class EventServiceProvider extends ServiceProvider
     Events\TaskStatusChanged::class => [
       Tasks\TaskStatusChangedNotification::class,
     ],
+    Events\OrderCreated::class => [
+      Order\OrderCreatedNotification::class,
+    ],
+    Events\OrderAccepted::class => [
+      Order\OrderAcceptedNotification::class,
+    ],
   ];
 
   /**
