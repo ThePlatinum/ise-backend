@@ -50,7 +50,7 @@ class OrderController extends Controller
         ->post($URL, [
           'amount'        => $cost,
           'email'         => $the_buyer->email,
-          'callback_url'  => 'http://127.0.0.1:3000/order/requirement',
+          'callback_url'  => 'https://ise-mu.vercel.app/order/requirement',
           'currency'      => 'NGN'
         ]);
   
