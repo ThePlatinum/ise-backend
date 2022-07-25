@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Task;
 use App\Models\User;
+use App\Providers\Events\OrderCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
@@ -49,12 +50,12 @@ class OrderController extends Controller
         ->post($URL, [
           'amount'        => $cost,
           'email'         => $the_buyer->email,
-          'callback_url'  => 'http://127.0.0.1:8000/api/paymentreturn',
+          'callback_url'  => 'http://127.0.0.1:3000/order/requirement',
           'currency'      => 'NGN'
         ]);
   
         if ($response->successful())
-          Order::create([
+          $order = Order::create([
             'task_id' => $task,
             'buyer_id' => $buyer,
             'seller_id' => $the_task->user->id,
@@ -64,50 +65,41 @@ class OrderController extends Controller
             'duration' => $the_task->duration,
             'duration_type' => $the_task->duration_type,
           ]);
-          return response()->json($response->json()['data']['authorization_url'], 200);
+          return response()->json([
+            'url' => $response->json()['data']['authorization_url'],
+            'order' => $order->id
+          ], 200);
       } catch (\Throwable $th) {
         //throw $th;
         return response()->json('Oops, an error occured, please retry', 402);
       }
     }
   
-    public function confirm_payment() {
-      $reference = isset($_GET['reference']) ? $_GET['reference'] : '';
-      // $trxref = isset($_GET['reference']) ? $_GET['reference'] : '';
-      $buyer = Auth()->user()->id;
-      $the_buyer = User::find($buyer);
-  
-      if(!$reference){
-        return response()->json([
-          'error' => 'Invalid Transaction'
-        ], 400);
-      }
-  
+    public function confirm_order(Request $request) {
+
+      $reference = $request->reference;
+      $the_buyer = User::find($request->user_id);
+      $the_order = Order::find($request->order);
+
+      if(!$reference) return response()->json('Invalid Transaction', 400);
+
       $URL = 'https://api.paystack.co/transaction/verify/'.$reference;
-  
       try {
         $response = Http::withToken( config('global.PAYSTACK_SECRET_KEY'), 'Bearer')
         ->withHeaders(['Accept' => 'application/json'])
         ->get($URL);
   
-        if ($response->successful() &&  ($response->json()['data']['status'] == 'success')){
-  
-          $the_buyer->subscribed_at = now();
-          $the_buyer->save();
-  
-          return  response()->json([
-            'stutus' => 'Payment Successful'
-          ], 200);
+        if ($response->successful() && ($response->json()['data']['status'] == 'success')){
+          $the_order->paid = true;
+          $the_order->save();
+          // TODO: Mail the task owner
+          event( new OrderCreated() );
+          return  response()->json('Successful', 200);
         }
         else
-          return response()->json([
-          'error' => 'Could not verify payment'
-        ], 500);
+          return response()->json('Could not verify payment', 400);
       } catch (\Throwable $th) {
-        //throw $th;
-        return response()->json([
-          'error' => 'An error occured'
-        ], 500);;
+        return response()->json('An error occured', 500);;
       }
       // TODO: Add ordered tasks
     }

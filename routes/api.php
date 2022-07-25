@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth:sanctum', 'mustverify']], function () {
 
   // Order
   Route::POST('order_task', [OrderController::class, 'order_task']);
+  Route::POST('confirm_order', [OrderController::class, 'confirm_order']);
 
   // Identity Documents
   Route::POST('identity/submit', [DocumentController::class, 'submitdoc']);
